@@ -109,7 +109,20 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: CadastrarEquipamentoWidget.routeName,
           path: CadastrarEquipamentoWidget.routePath,
-          builder: (context, params) => CadastrarEquipamentoWidget(),
+          builder: (context, params) => CadastrarEquipamentoWidget(
+            marca: params.getParam(
+              'marca',
+              ParamType.String,
+            ),
+            mac: params.getParam(
+              'mac',
+              ParamType.String,
+            ),
+            fotourl: params.getParam(
+              'fotourl',
+              ParamType.String,
+            ),
+          ),
         ),
         FFRoute(
           name: TesteWidget.routeName,

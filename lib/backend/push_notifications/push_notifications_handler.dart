@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'serialization_util.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '../../flutter_flow/flutter_flow_util.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -119,7 +120,13 @@ final parametersBuilderMap =
         allParams: <String, dynamic>{},
       ),
   'MeusDadosPage': ParameterData.none(),
-  'CadastrarEquipamento': ParameterData.none(),
+  'CadastrarEquipamento': (data) async => ParameterData(
+        allParams: {
+          'marca': getParameter<String>(data, 'marca'),
+          'mac': getParameter<String>(data, 'mac'),
+          'fotourl': getParameter<String>(data, 'fotourl'),
+        },
+      ),
   'teste': ParameterData.none(),
 };
 

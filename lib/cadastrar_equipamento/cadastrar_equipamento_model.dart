@@ -1,4 +1,5 @@
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'cadastrar_equipamento_widget.dart' show CadastrarEquipamentoWidget;
 import 'package:flutter/material.dart';
 
