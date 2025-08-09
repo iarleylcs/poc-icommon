@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "999979333152",
+    "project_id": "poc-icommon-b01ka9",
+    "storage_bucket": "poc-icommon-b01ka9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:999979333152:android:2526001d8a02d872186e45",
+        "android_client_info": {
+          "package_name": "com.mycompany.pocicommon"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcmJLP4Zt2aQ8sm7j51OoUP49A022Ho70"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
