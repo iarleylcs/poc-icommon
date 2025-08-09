@@ -1,6 +1,8 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
 import '/backend/firebase_storage/storage.dart';
+import '/backend/push_notifications/push_notifications_util.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -40,13 +42,16 @@ export 'cadastrar_equipamento_model.dart';
 class CadastrarEquipamentoWidget extends StatefulWidget {
   const CadastrarEquipamentoWidget({
     super.key,
-    required this.marca,
+    String? marca,
     required this.mac,
     required this.fotourl,
-  });
+  }) : this.marca = marca ?? 'Intelbras Action RG 1200';
 
-  final String? marca;
+  final String marca;
+
+  /// A8:F9:4B:1D:8C:3E
   final String? mac;
+
   final String? fotourl;
 
   static String routeName = 'CadastrarEquipamento';
@@ -450,6 +455,20 @@ class _CadastrarEquipamentoWidgetState
                                         return;
                                       }
                                     }
+
+                                    await Future.delayed(
+                                      Duration(
+                                        milliseconds: 3000,
+                                      ),
+                                    );
+                                    safeSetState(() {
+                                      _model.textController1?.text =
+                                          'Intelbras Action RG 1200';
+                                    });
+                                    safeSetState(() {
+                                      _model.textController2?.text =
+                                          'A8:59:4B:1D:8C:3E';
+                                    });
                                   },
                                   text: 'Anexar/Tirar Foto',
                                   icon: Icon(
@@ -530,106 +549,140 @@ class _CadastrarEquipamentoWidgetState
                                   .secondaryBackground,
                             ),
                           ),
+                          child: Visibility(
+                            visible:
+                                _model.uploadedFileUrl_uploadData1d9 != '',
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(15.0),
+                                bottomRight: Radius.circular(15.0),
+                                topLeft: Radius.circular(15.0),
+                                topRight: Radius.circular(15.0),
+                              ),
+                              child: Image.asset(
+                                'assets/images/etiqueta.jpg',
+                                width: 200.0,
+                                height: 200.0,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    if (_model.uploadedFileUrl_uploadData1d9 != '')
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            0.0, 30.0, 0.0, 20.0),
-                        child: FFButtonWidget(
-                          onPressed: () async {
-                            var confirmDialogResponse = await showDialog<bool>(
-                                  context: context,
-                                  builder: (alertDialogContext) {
-                                    return AlertDialog(
-                                      title: Text('Confirme os dados'),
-                                      content: Text(
-                                          'Os dados enviados estão corretos?'),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () => Navigator.pop(
-                                              alertDialogContext, false),
-                                          child: Text('Não'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () => Navigator.pop(
-                                              alertDialogContext, true),
-                                          child: Text('Sim'),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                ) ??
-                                false;
-                            if (confirmDialogResponse) {
-                              await EquipamentosRecord.collection
-                                  .doc()
-                                  .set(createEquipamentosRecordData(
-                                    marca: _model.textController1.text,
-                                    mac: _model.textController2.text,
-                                    fotoUrl:
-                                        _model.uploadedFileUrl_uploadData1d9,
-                                  ));
-                            }
-                            await showDialog(
-                              context: context,
-                              builder: (alertDialogContext) {
-                                return AlertDialog(
-                                  title: Text('Cadastro de Equipamento'),
-                                  content: Text(
-                                      'O equipamento foi enviado para cadastro'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(alertDialogContext),
-                                      child: Text('Ok'),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                          text: 'Enviar',
-                          icon: Icon(
-                            Icons.save_alt_sharp,
-                            size: 16.0,
-                          ),
-                          options: FFButtonOptions(
-                            height: 40.0,
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                16.0, 0.0, 16.0, 0.0),
-                            iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 0.0, 0.0),
-                            color: FlutterFlowTheme.of(context).accent1,
-                            textStyle: FlutterFlowTheme.of(context)
-                                .titleSmall
-                                .override(
-                              font: GoogleFonts.montserrat(
-                                fontWeight: FontWeight.bold,
-                                fontStyle: FlutterFlowTheme.of(context)
-                                    .titleSmall
-                                    .fontStyle,
-                              ),
-                              color: Colors.white,
-                              letterSpacing: 0.0,
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 20.0),
+                      child: FFButtonWidget(
+                        onPressed: () async {
+                          var confirmDialogResponse = await showDialog<bool>(
+                                context: context,
+                                builder: (alertDialogContext) {
+                                  return AlertDialog(
+                                    title: Text('Confirme os dados'),
+                                    content: Text(
+                                        'Os dados enviados estão corretos?'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(
+                                            alertDialogContext, false),
+                                        child: Text('Não'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(
+                                            alertDialogContext, true),
+                                        child: Text('Sim'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ) ??
+                              false;
+                          if (confirmDialogResponse) {
+                            await EquipamentosRecord.collection
+                                .doc()
+                                .set(createEquipamentosRecordData(
+                                  marca: valueOrDefault<String>(
+                                    _model.textController1.text,
+                                    'Intelbras Action RG 1200',
+                                  ),
+                                  mac: valueOrDefault<String>(
+                                    _model.textController2.text,
+                                    'A8:F9:4B:1D:8C:3E',
+                                  ),
+                                  fotoUrl: _model.uploadedFileUrl_uploadData1d9,
+                                ));
+                          }
+                          await showDialog(
+                            context: context,
+                            builder: (alertDialogContext) {
+                              return AlertDialog(
+                                title: Text('Cadastro de Equipamento'),
+                                content: Text(
+                                    'O equipamento foi enviado para cadastro'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(alertDialogContext),
+                                    child: Text('Ok'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                          await Future.delayed(
+                            Duration(
+                              milliseconds: 3000,
+                            ),
+                          );
+                          triggerPushNotification(
+                            notificationTitle: 'Cadastro de Equipamento',
+                            notificationText:
+                                'O equipamento foi cadastro com sucesso!',
+                            userRefs: [currentUserReference!],
+                            initialPageName: 'HomePage',
+                            parameterData: {},
+                          );
+                        },
+                        text: 'Enviar',
+                        icon: Icon(
+                          Icons.save_alt_sharp,
+                          size: 16.0,
+                        ),
+                        options: FFButtonOptions(
+                          height: 40.0,
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              16.0, 0.0, 16.0, 0.0),
+                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
+                          color: FlutterFlowTheme.of(context).accent1,
+                          textStyle:
+                              FlutterFlowTheme.of(context).titleSmall.override(
+                            font: GoogleFonts.montserrat(
                               fontWeight: FontWeight.bold,
                               fontStyle: FlutterFlowTheme.of(context)
                                   .titleSmall
                                   .fontStyle,
-                              shadows: [
-                                Shadow(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryText,
-                                  offset: Offset(2.0, 2.0),
-                                  blurRadius: 2.0,
-                                )
-                              ],
                             ),
-                            elevation: 0.0,
-                            borderRadius: BorderRadius.circular(8.0),
+                            color: Colors.white,
+                            letterSpacing: 0.0,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .fontStyle,
+                            shadows: [
+                              Shadow(
+                                color:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                                offset: Offset(2.0, 2.0),
+                                blurRadius: 2.0,
+                              )
+                            ],
                           ),
+                          elevation: 0.0,
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
                       ),
+                    ),
                     Expanded(
                       child: Align(
                         alignment: AlignmentDirectional(0.0, 3.0),
