@@ -1,4 +1,3 @@
-import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/firebase_storage/storage.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -6,11 +5,8 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/upload_data.dart';
-import 'dart:ui';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'cadastrar_equipamento_model.dart';
 export 'cadastrar_equipamento_model.dart';
 
@@ -461,8 +457,7 @@ class _CadastrarEquipamentoWidgetState
                       ),
                     ),
                     if (valueOrDefault<bool>(
-                      _model.uploadedFileUrl_uploadData1d9 != null &&
-                          _model.uploadedFileUrl_uploadData1d9 != '',
+                      _model.uploadedFileUrl_uploadData1d9 != '',
                       true,
                     ))
                       Padding(
@@ -497,8 +492,7 @@ class _CadastrarEquipamentoWidgetState
                           ),
                         ),
                       ),
-                    if (_model.uploadedFileUrl_uploadData1d9 != null &&
-                        _model.uploadedFileUrl_uploadData1d9 != '')
+                    if (_model.uploadedFileUrl_uploadData1d9 != '')
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(
                             0.0, 30.0, 0.0, 20.0),
